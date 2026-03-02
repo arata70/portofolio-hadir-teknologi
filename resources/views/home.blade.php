@@ -9,15 +9,14 @@
         ->filter()
         ->values();
 
-    $projectYears = $projects->pluck('year')->filter();
-    $technologyCount = $projects
-        ->pluck('technology')
-        ->filter()
-        ->flatMap(fn ($techs) => collect(explode(',', $techs)))
-        ->map(fn ($tech) => trim($tech))
-        ->filter()
-        ->unique()
-        ->count();
+    $latestProject = $projects
+        ->sortByDesc(function ($project) {
+            $year = (int) ($project->year ?? 0);
+            $timestamp = $project->created_at?->timestamp ?? 0;
+
+            return ($year * 10000000000) + $timestamp;
+        })
+        ->first();
 
     $instagramValue = trim((string) $companyProfile->contact_instagram);
     $instagramUrl = null;
@@ -56,25 +55,20 @@
                 </div>
             </div>
 
-            <div class="rounded-3xl border border-slate-200 bg-amber-50 p-5 card-hover">
-                <p class="text-3xl font-extrabold text-slate-900">{{ $technologyCount ?: 0 }}+</p>
-                <p class="mt-1 text-sm font-medium text-slate-600">Technologies</p>
-            </div>
-
-            <div class="rounded-3xl border border-slate-200 bg-emerald-900 p-5 card-hover">
-                <p class="text-3xl font-extrabold text-emerald-100">{{ $projectYears->max() ?: '-' }}</p>
-                <p class="mt-1 text-sm font-medium text-emerald-200">Latest Delivery</p>
-            </div>
-
-            <div class="col-span-2 rounded-3xl border border-emerald-300/80 bg-emerald-500 p-6 card-hover">
-                <div class="rounded-2xl bg-white/90 p-4">
-                    <div class="mb-3 h-4 w-24 rounded-full bg-slate-200"></div>
-                    <div class="mb-2 h-3 w-full rounded-full bg-slate-100"></div>
-                    <div class="mb-2 h-3 w-4/5 rounded-full bg-slate-100"></div>
-                    <div class="mb-4 h-3 w-2/5 rounded-full bg-slate-100"></div>
-                    <div class="inline-flex rounded-xl bg-emerald-500 px-4 py-2 text-xs font-bold text-white">
-                        Build & Launch
+            <div class="col-span-2 rounded-3xl border border-slate-200 bg-emerald-900 p-6 card-hover">
+                <p class="text-sm font-semibold text-emerald-200">Latest Project</p>
+                <div class="mt-3 flex flex-wrap items-end justify-between gap-4">
+                    <div>
+                        <p class="text-4xl font-extrabold text-emerald-100">{{ $latestProject?->year ?: '-' }}</p>
+                        <p class="mt-1 text-sm font-medium text-emerald-200">
+                            {{ $latestProject?->title ?: 'Belum ada project yang dipublish' }}
+                        </p>
                     </div>
+                    @if ($latestProject)
+                        <span class="inline-flex rounded-xl bg-emerald-100 px-4 py-2 text-xs font-bold uppercase tracking-wide text-emerald-900">
+                            Dari Postingan Terbaru
+                        </span>
+                    @endif
                 </div>
             </div>
         </div>

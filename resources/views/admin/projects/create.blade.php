@@ -26,103 +26,81 @@
         </div>
     @endif
 
-    <div class="grid gap-6 lg:grid-cols-[2fr,1fr]">
-        <form action="{{ route('admin.projects.store') }}"
-            method="POST"
-            enctype="multipart/form-data"
-            class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm space-y-6">
-            @csrf
+    <form action="{{ route('admin.projects.store') }}"
+        method="POST"
+        enctype="multipart/form-data"
+        class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm space-y-7">
+        @csrf
 
-            <div class="grid md:grid-cols-2 gap-4">
-                <div>
-                    <label for="title" class="mb-2 block text-sm font-semibold text-slate-700">Judul Project</label>
-                    <input id="title" type="text" name="title" value="{{ old('title') }}"
-                        class="w-full rounded-xl border-slate-300 text-sm focus:border-cyan-500 focus:ring-cyan-500"
-                        placeholder="Contoh: Aplikasi ERP Internal" required>
-                </div>
-
-                <div>
-                    <label for="slug" class="mb-2 block text-sm font-semibold text-slate-700">Slug</label>
-                    <input id="slug" type="text" name="slug" value="{{ old('slug') }}"
-                        class="w-full rounded-xl border-slate-300 text-sm focus:border-cyan-500 focus:ring-cyan-500"
-                        placeholder="aplikasi-erp-internal" required>
-                </div>
+        <div class="grid gap-5 md:grid-cols-2">
+            <div>
+                <label for="title" class="mb-2 block text-base font-semibold text-slate-800">Judul Project</label>
+                <input id="title" type="text" name="title" value="{{ old('title') }}"
+                    class="w-full rounded-lg border-slate-300 px-4 py-3 text-base focus:border-cyan-500 focus:ring-cyan-500"
+                    placeholder="Contoh: Aplikasi ERP Internal" required>
             </div>
 
             <div>
-                <label for="excerpt" class="mb-2 block text-sm font-semibold text-slate-700">Ringkasan</label>
-                <textarea id="excerpt" name="excerpt" rows="3"
-                    class="w-full rounded-xl border-slate-300 text-sm focus:border-cyan-500 focus:ring-cyan-500"
-                    placeholder="Ringkasan singkat project untuk preview kartu">{{ old('excerpt') }}</textarea>
+                <label for="slug" class="mb-2 block text-base font-semibold text-slate-800">Slug</label>
+                <input id="slug" type="text" name="slug" value="{{ old('slug') }}"
+                    class="w-full rounded-lg border-slate-300 px-4 py-3 text-base focus:border-cyan-500 focus:ring-cyan-500"
+                    placeholder="aplikasi-erp-internal" required>
+            </div>
+        </div>
+
+        <div>
+            <label for="excerpt" class="mb-2 block text-base font-semibold text-slate-800">Ringkasan</label>
+            <textarea id="excerpt" name="excerpt" rows="3"
+                class="w-full rounded-lg border-slate-300 px-4 py-3 text-base leading-relaxed focus:border-cyan-500 focus:ring-cyan-500"
+                placeholder="Ringkasan singkat project untuk preview kartu">{{ old('excerpt') }}</textarea>
+        </div>
+
+        <div>
+            <label for="description" class="mb-2 block text-base font-semibold text-slate-800">Deskripsi Lengkap</label>
+            <textarea id="description" name="description" rows="6"
+                class="w-full rounded-lg border-slate-300 px-4 py-3 text-base leading-relaxed focus:border-cyan-500 focus:ring-cyan-500"
+                placeholder="Ceritakan detail hasil, proses, dan dampak project">{{ old('description') }}</textarea>
+        </div>
+
+        <div class="grid gap-5 md:grid-cols-2">
+            <div>
+                <label for="technology" class="mb-2 block text-base font-semibold text-slate-800">Teknologi</label>
+                <input id="technology" type="text" name="technology" value="{{ old('technology') }}"
+                    class="w-full rounded-lg border-slate-300 px-4 py-3 text-base focus:border-cyan-500 focus:ring-cyan-500"
+                    placeholder="Laravel, Tailwind, MySQL">
             </div>
 
             <div>
-                <label for="description" class="mb-2 block text-sm font-semibold text-slate-700">Deskripsi Lengkap</label>
-                <textarea id="description" name="description" rows="6"
-                    class="w-full rounded-xl border-slate-300 text-sm focus:border-cyan-500 focus:ring-cyan-500"
-                    placeholder="Ceritakan detail hasil, proses, dan dampak project">{{ old('description') }}</textarea>
+                <label for="year" class="mb-2 block text-base font-semibold text-slate-800">Tahun</label>
+                <input id="year" type="number" name="year" value="{{ old('year', date('Y')) }}"
+                    class="w-full rounded-lg border-slate-300 px-4 py-3 text-base focus:border-cyan-500 focus:ring-cyan-500"
+                    min="2000" max="2099" required>
             </div>
+        </div>
 
-            <div class="grid md:grid-cols-2 gap-4">
-                <div>
-                    <label for="technology" class="mb-2 block text-sm font-semibold text-slate-700">Teknologi</label>
-                    <input id="technology" type="text" name="technology" value="{{ old('technology') }}"
-                        class="w-full rounded-xl border-slate-300 text-sm focus:border-cyan-500 focus:ring-cyan-500"
-                        placeholder="Laravel, Tailwind, MySQL">
-                </div>
-
-                <div>
-                    <label for="year" class="mb-2 block text-sm font-semibold text-slate-700">Tahun</label>
-                    <input id="year" type="number" name="year" value="{{ old('year', date('Y')) }}"
-                        class="w-full rounded-xl border-slate-300 text-sm focus:border-cyan-500 focus:ring-cyan-500"
-                        min="2000" max="2099" required>
-                </div>
+        <div>
+            <label for="thumbnail" class="mb-2 block text-base font-semibold text-slate-800">Thumbnail</label>
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
+                <img id="preview" src="#" alt="Preview thumbnail"
+                    class="hidden h-24 w-36 rounded-lg border border-slate-300 object-cover">
+                <input id="thumbnail" type="file" name="thumbnail" accept="image/*"
+                    class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-slate-900 file:px-4 file:py-2.5 file:text-sm file:font-semibold file:text-white hover:file:bg-slate-700"
+                    onchange="previewImage(event)">
             </div>
+            <p class="mt-2 text-xs text-slate-500">Format JPG/PNG, maksimal 2MB.</p>
+        </div>
 
-            <div>
-                <label for="thumbnail" class="mb-2 block text-sm font-semibold text-slate-700">Thumbnail</label>
-                <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
-                    <img id="preview" src="#" alt="Preview thumbnail"
-                        class="hidden h-24 w-36 rounded-xl border border-slate-300 object-cover">
-                    <input id="thumbnail" type="file" name="thumbnail" accept="image/*"
-                        class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-slate-900 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-slate-700"
-                        onchange="previewImage(event)">
-                </div>
-                <p class="mt-2 text-xs text-slate-500">Format JPG/PNG, maksimal 2MB.</p>
-            </div>
-
-            <div class="flex justify-end gap-3 border-t border-slate-200 pt-4">
-                <a href="{{ route('admin.posts.index') }}"
-                    class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100">
-                    Batal
-                </a>
-                <button type="submit"
-                    class="inline-flex items-center rounded-xl bg-cyan-600 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-700">
-                    Simpan Sebagai Draft
-                </button>
-            </div>
-        </form>
-
-        <aside class="rounded-2xl bg-slate-900 p-6 text-slate-100 shadow-sm">
-            <h2 class="text-lg font-semibold">Workflow Review</h2>
-            <p class="mt-2 text-sm text-slate-300">Setiap project baru akan masuk ke halaman postingan dalam status draft.</p>
-
-            <div class="mt-6 space-y-4 text-sm">
-                <div class="rounded-xl bg-slate-800/80 p-4">
-                    <p class="font-semibold text-cyan-300">1. Simpan Draft</p>
-                    <p class="mt-1 text-slate-300">Konten tersimpan dulu untuk dicek tim admin.</p>
-                </div>
-                <div class="rounded-xl bg-slate-800/80 p-4">
-                    <p class="font-semibold text-cyan-300">2. Review</p>
-                    <p class="mt-1 text-slate-300">Edit data, cek slug, ringkasan, dan deskripsi.</p>
-                </div>
-                <div class="rounded-xl bg-slate-800/80 p-4">
-                    <p class="font-semibold text-cyan-300">3. Publish</p>
-                    <p class="mt-1 text-slate-300">Project tampil ke halaman publik setelah dipublish.</p>
-                </div>
-            </div>
-        </aside>
-    </div>
+        <div class="flex justify-end gap-3 border-t border-slate-200 pt-5">
+            <a href="{{ route('admin.posts.index') }}"
+                class="inline-flex items-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-100">
+                Batal
+            </a>
+            <button type="submit"
+                class="inline-flex items-center rounded-lg bg-cyan-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-cyan-700">
+                Simpan Sebagai Draft
+            </button>
+        </div>
+    </form>
 </div>
 
 <script>

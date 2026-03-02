@@ -29,60 +29,60 @@
     <form action="{{ route('admin.projects.update', $project) }}"
         method="POST"
         enctype="multipart/form-data"
-        class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm space-y-6">
+        class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm space-y-7">
         @csrf
         @method('PUT')
 
-        <div class="grid md:grid-cols-2 gap-4">
+        <div class="grid gap-5 md:grid-cols-2">
             <div>
-                <label class="mb-2 block text-sm font-semibold text-slate-700">Judul Project</label>
+                <label class="mb-2 block text-base font-semibold text-slate-800">Judul Project</label>
                 <input type="text" name="title"
                     value="{{ old('title', $project->title) }}"
-                    class="w-full rounded-xl border-slate-300 text-sm focus:border-cyan-500 focus:ring-cyan-500"
+                    class="w-full rounded-lg border-slate-300 px-4 py-3 text-base focus:border-cyan-500 focus:ring-cyan-500"
                     required>
             </div>
 
             <div>
-                <label class="mb-2 block text-sm font-semibold text-slate-700">Slug</label>
+                <label class="mb-2 block text-base font-semibold text-slate-800">Slug</label>
                 <input type="text" name="slug"
                     value="{{ old('slug', $project->slug) }}"
-                    class="w-full rounded-xl border-slate-300 text-sm focus:border-cyan-500 focus:ring-cyan-500"
+                    class="w-full rounded-lg border-slate-300 px-4 py-3 text-base focus:border-cyan-500 focus:ring-cyan-500"
                     required>
             </div>
         </div>
 
         <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Ringkasan</label>
+            <label class="mb-2 block text-base font-semibold text-slate-800">Ringkasan</label>
             <textarea name="excerpt" rows="3"
-                class="w-full rounded-xl border-slate-300 text-sm focus:border-cyan-500 focus:ring-cyan-500">{{ old('excerpt', $project->excerpt) }}</textarea>
+                class="w-full rounded-lg border-slate-300 px-4 py-3 text-base leading-relaxed focus:border-cyan-500 focus:ring-cyan-500">{{ old('excerpt', $project->excerpt) }}</textarea>
         </div>
 
         <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Deskripsi</label>
+            <label class="mb-2 block text-base font-semibold text-slate-800">Deskripsi</label>
             <textarea name="description" rows="6"
-                class="w-full rounded-xl border-slate-300 text-sm focus:border-cyan-500 focus:ring-cyan-500">{{ old('description', $project->description) }}</textarea>
+                class="w-full rounded-lg border-slate-300 px-4 py-3 text-base leading-relaxed focus:border-cyan-500 focus:ring-cyan-500">{{ old('description', $project->description) }}</textarea>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-4">
+        <div class="grid gap-5 md:grid-cols-3">
             <div>
-                <label class="mb-2 block text-sm font-semibold text-slate-700">Teknologi</label>
+                <label class="mb-2 block text-base font-semibold text-slate-800">Teknologi</label>
                 <input type="text" name="technology"
                     value="{{ old('technology', $project->technology) }}"
-                    class="w-full rounded-xl border-slate-300 text-sm focus:border-cyan-500 focus:ring-cyan-500">
+                    class="w-full rounded-lg border-slate-300 px-4 py-3 text-base focus:border-cyan-500 focus:ring-cyan-500">
             </div>
 
             <div>
-                <label class="mb-2 block text-sm font-semibold text-slate-700">Tahun</label>
+                <label class="mb-2 block text-base font-semibold text-slate-800">Tahun</label>
                 <input type="number" name="year"
                     value="{{ old('year', $project->year) }}"
-                    class="w-full rounded-xl border-slate-300 text-sm focus:border-cyan-500 focus:ring-cyan-500"
+                    class="w-full rounded-lg border-slate-300 px-4 py-3 text-base focus:border-cyan-500 focus:ring-cyan-500"
                     min="2000" max="2099" required>
             </div>
 
             <div>
-                <label class="mb-2 block text-sm font-semibold text-slate-700">Status</label>
+                <label class="mb-2 block text-base font-semibold text-slate-800">Status</label>
                 <select name="status"
-                    class="w-full rounded-xl border-slate-300 text-sm focus:border-cyan-500 focus:ring-cyan-500">
+                    class="w-full rounded-lg border-slate-300 px-4 py-3 text-base focus:border-cyan-500 focus:ring-cyan-500">
                     <option value="draft" @selected(old('status', $project->status) === 'draft')>Draft</option>
                     <option value="publish" @selected(old('status', $project->status) === 'publish')>Publish</option>
                 </select>
@@ -90,25 +90,25 @@
         </div>
 
         <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Thumbnail</label>
+            <label class="mb-2 block text-base font-semibold text-slate-800">Thumbnail</label>
             <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
                 @if ($project->thumbnail)
                     <img src="{{ asset('storage/' . $project->thumbnail) }}"
                         alt="{{ $project->title }}"
-                        class="h-24 w-36 rounded-xl border border-slate-300 object-cover">
+                        class="h-24 w-36 rounded-lg border border-slate-300 object-cover">
                 @endif
                 <input type="file" name="thumbnail" accept="image/*"
-                    class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-slate-900 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-slate-700">
+                    class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-slate-900 file:px-4 file:py-2.5 file:text-sm file:font-semibold file:text-white hover:file:bg-slate-700">
             </div>
         </div>
 
-        <div class="flex justify-end gap-3 border-t border-slate-200 pt-4">
+        <div class="flex justify-end gap-3 border-t border-slate-200 pt-5">
             <a href="{{ route('admin.posts.index') }}"
-                class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100">
+                class="inline-flex items-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-100">
                 Batal
             </a>
             <button type="submit"
-                class="inline-flex items-center rounded-xl bg-cyan-600 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-700">
+                class="inline-flex items-center rounded-lg bg-cyan-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-cyan-700">
                 Simpan Perubahan
             </button>
         </div>
